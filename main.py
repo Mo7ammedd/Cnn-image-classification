@@ -61,16 +61,15 @@ x_train = x_train / 255.0
 x_test = x_test / 255.0
 
 # Train PCNN model
-for _ in range(10):  # Run the approach 10 times
+for _ in range(10):  
     for i in range(x_train.shape[0]):
         img = x_train[i]
         Y = pcnn.run(img, iterations)
-        # Calculate loss and update PCNN parameters using backpropagation
-        # (not implemented in this example)
+      
 
 # Evaluate PCNN model on test set
 accuracy = 0
-for _ in range(5):  # Run the approach 10 times
+for _ in range(5): 
     for i in range(x_test.shape[0]):
         img = x_test[i]
         Y = pcnn.run(img, iterations)

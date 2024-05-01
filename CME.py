@@ -71,12 +71,8 @@ def new_win():
         print(sign)
         lable.configure(foreground='#3498db', text=sign)
 
-        # center the window
-        # width = 800
-        # height = 600
-
+      
     def center_window(top, width, height):
-        # Get the screen width and height
         screen_width = top.winfo_screenwidth()
         screen_height = top.winfo_screenheight()
 
