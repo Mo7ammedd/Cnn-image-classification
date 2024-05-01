@@ -4,7 +4,7 @@
 **Description**
 ---------------
 
-This repository contains an image classification and retrieval model developed using the paper "Image classification and retrieval using optimized Pulse-Coupled Neural Network" by Mona Mahrous Mohammed et al. (2015). The model uses a Pulse-Coupled Neural Network (PCNN) to extract visual features from images and a K-Nearest Neighbor (K-NN) algorithm for classification and matching.
+This repository contains an image classification and retrieval model developed using the paper "Image classification and retrieval using optimized Pulse-Coupled Neural Network, The model uses a Pulse-Coupled Neural Network (PCNN) to extract visual features from images and a K-Nearest Neighbor (K-NN) algorithm for classification and matching
 
 **Model Architecture**
 ---------------------
