@@ -103,7 +103,7 @@ def new_win():
     top.configure(background="#f0f0f0")
 
     # Set Heading
-    heading = Label(top, text="Image Classification Using CNN",
+    heading = Label(top, text="Image Classification Using Pcnn",
                     pady=20, font=('Game Of Squids', 20, 'bold'))
     heading.configure(background="#f0f0f0", foreground='#3498db')
     heading.pack()
