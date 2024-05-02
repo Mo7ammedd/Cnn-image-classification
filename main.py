@@ -2,6 +2,7 @@ import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 from tensorflow.keras.datasets import cifar10
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 class PCNN:
     def __init__(self, alpha_L, alpha_F, alpha_T, V_L, V_F, b, T):
@@ -60,12 +61,23 @@ pcnn = PCNN(alpha_L, alpha_F, alpha_T, V_L, V_F, b, T)
 x_train = x_train / 255.0
 x_test = x_test / 255.0
 
-# Train PCNN model
+# Create an instance of the ImageDataGenerator
+datagen = ImageDataGenerator(
+    rotation_range=15,
+    width_shift_range=0.1,
+    height_shift_range=0.1,
+    horizontal_flip=True
+)
+
+# Fit the generator to the training data
+datagen.fit(x_train)
+
+# Train PCNN model with data augmentation
 for _ in range(10):  
     for i in range(x_train.shape[0]):
         img = x_train[i]
-        Y = pcnn.run(img, iterations)
-      
+        img_aug = next(datagen.flow(img[None, :, :, :]))[0]
+        Y = pcnn.run(img_aug, iterations)
 
 # Evaluate PCNN model on test set
 accuracy = 0
@@ -91,8 +103,10 @@ model.add(Dense(10, activation='softmax'))
 # Compile the model
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
-# Train the model
-model.fit(x_train, y_train, epochs=10, validation_data=(x_test, y_test))
+# Train the model with data augmentation
+history = model.fit(datagen.flow(x_train, y_train, batch_size=32),
+                    epochs=10,
+                    validation_data=(x_test, y_test))
 
 # Evaluate the model on test set
 test_loss, test_acc = model.evaluate(x_test, y_test)
