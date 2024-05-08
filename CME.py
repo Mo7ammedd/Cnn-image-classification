@@ -30,7 +30,7 @@ def new_win():
     from PIL import ImageTk, Image
     import numpy
     from tensorflow.keras.models import load_model
-    model = load_model('C:/Users/Mohamed/Desktop/Cifar10-imageClassification/mm.h5')
+    model = load_model('C:/Users/Mohamed/Desktop/Cifar10-imageClassification/crn_model.h5')
     classes = {
         0: 'airplane',
         1: 'car',
@@ -99,7 +99,7 @@ def new_win():
     top.configure(background="#f0f0f0")
 
     # Set Heading
-    heading = Label(top, text="Image Classification Using Pcnn",
+    heading = Label(top, text="Image Classification Using Cnn",
                     pady=20, font=('Game Of Squids', 20, 'bold'))
     heading.configure(background="#f0f0f0", foreground='#3498db')
     heading.pack()
