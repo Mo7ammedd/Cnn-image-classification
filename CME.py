@@ -30,7 +30,7 @@ def new_win():
     from PIL import ImageTk, Image
     import numpy
     from tensorflow.keras.models import load_model
-    model = load_model('C:/Users/Mohamed/Desktop/Cifar10-imageClassification/mo.h5')
+    model = load_model('C:/Users/Mohamed/Desktop/Cifar10-imageClassification/new.h5')
     classes = {
         0: 'airplane',
         1: 'car',
