@@ -1,105 +1,58 @@
-import numpy as np
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
-from tensorflow.keras.datasets import cifar10
+# Import TensorFlow
+import tensorflow as tf
+from tensorflow.keras import datasets, layers, models
+import matplotlib.pyplot as plt
 
-class PCNN:
-    def __init__(self, alpha_L, alpha_F, alpha_T, V_L, V_F, b, T):
-        self.alpha_L = alpha_L
-        self.alpha_F = alpha_F
-        self.alpha_T = alpha_T
-        self.V_L = V_L
-        self.V_F = V_F
-        self.b = b
-        self.T = T
-
-    def linking(self, L, Y):
-        # return L * (1 - self.alpha_L) + self.V_L * Y
-        return L * (self.alpha_L - 1) + self.V_L * Y
-
-    def feeding(self, F, Y, A):
-        A_sum = np.sum(A, axis=2, keepdims=True)
-        # return F * (1 - self.alpha_F) + self.V_F * Y + A_sum
-        return F * (self.alpha_F - 1) + self.V_F * Y + A_sum
-
-    def threshold(self, T, Y):
-        # return T * (1 - self.alpha_T) + self.V_L * Y
-        return T * (self.alpha_T - 1) + self.V_L * Y
-
-    def step_function(self, U):
-        return (U > self.T).astype(int)
-
-    def iterate(self, Y, A):
-        L = self.linking(np.zeros_like(Y), Y)
-        F = self.feeding(np.zeros_like(Y), Y, A)
-        U = F + (1 + self.b) * L
-        Y = self.step_function(U)
-        self.T = self.threshold(self.T, Y)
-        return Y
-
-    def run(self, A, iterations):
-        Y = np.zeros_like(A)
-        for _ in range(iterations):
-            Y = self.iterate(Y, A)
-        return Y
-
-# Define hyperparameters
-alpha_L = 0.1
-alpha_F = 0.1
-alpha_T = 0.1
-V_L = 1
-V_F = 1
-b = 1
-T = 1
-iterations = 10
-
-# Create PCNN model
-pcnn = PCNN(alpha_L, alpha_F, alpha_T, V_L, V_F, b, T)
-
-# Load CIFAR-10 dataset
-(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+(train_images, train_labels), (test_images, test_labels) = datasets.cifar10.load_data()
 
 # Normalize pixel values to be between 0 and 1
-x_train = x_train / 255.0
-x_test = x_test / 255.0
+train_images, test_images = train_images / 255.0, test_images / 255.0
 
-# Train PCNN model
-for _ in range(10):  
-    for i in range(x_train.shape[0]):
-        img = x_train[i]
-        Y = pcnn.run(img, iterations)
-      
+class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer',
+               'dog', 'frog', 'horse', 'ship', 'truck']
 
-# Evaluate PCNN model on test set
-accuracy = 0
-for _ in range(5): 
-    for i in range(x_test.shape[0]):
-        img = x_test[i]
-        Y = pcnn.run(img, iterations)
-        accuracy += 1 if np.argmax(Y) == y_test[i] else 0
-accuracy /= (x_test.shape[0] * 10)
-print("Test accuracy:", accuracy)
+plt.figure(figsize=(8,8))
+for i in range(25):
+    plt.subplot(5,5,i+1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i])
+    # The CIFAR labels happen to be arrays,
+    #which is why we need the extra index
+    plt.xlabel(class_names[train_labels[i][0]])
+plt.show()
 
-# Create a Keras model
-model = Sequential()
-model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
-model.add(MaxPooling2D((2, 2)))
-model.add(Conv2D(64, (3, 3), activation='relu'))
-model.add(MaxPooling2D((2, 2)))
-model.add(Conv2D(64, (3, 3), activation='relu'))
-model.add(Flatten())
-model.add(Dense(64, activation='relu'))
-model.add(Dense(10, activation='softmax'))
+model = models.Sequential()
+model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
 
-# Compile the model
-model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.add(layers.Flatten())
+model.add(layers.Dense(64, activation='relu'))
+model.add(layers.Dense(10))
 
-# Train the model
-model.fit(x_train, y_train, epochs=10, validation_data=(x_test, y_test))
+# Adam is the best among the adaptive optimizers in most of the cases
+model.compile(optimizer='adam',
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+              metrics=['accuracy'])
 
-# Evaluate the model on test set
-test_loss, test_acc = model.evaluate(x_test, y_test)
-print("Test accuracy:", test_acc)
+# An epoch means training the neural network with all the
+# training data for one cycle. Here I use 10 epochs
+history = model.fit(train_images, train_labels, epochs=5, 
+                    validation_data=(test_images, test_labels))
 
-# Save the model
-model.save("mm.h5")
+plt.plot(history.history['accuracy'],label='accuracy')
+plt.plot(history.history['val_accuracy'],label = 'val_accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.ylim([0.5, 1])
+plt.legend(loc='lower right')
+
+test_loss, test_acc = model.evaluate(test_images,
+                                     test_labels,
+                                     verbose=2)
+
+print('Test Accuracy is',test_acc)
