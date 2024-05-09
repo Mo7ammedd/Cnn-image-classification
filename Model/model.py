@@ -50,6 +50,8 @@ model.compile(optimizer="adam",loss="categorical_crossentropy",metrics=["accurac
 model.summary()
 model.fit(x_train,y_train,batch_size=64,epochs=20,validation_data=(x_test,y_test))
 
-model.save("Model.h5")
+print("Model Final Accuracy: ",model.evaluate(x_test,y_test)[1]*100)
+
+model.save("Mm.h5")
 
 
