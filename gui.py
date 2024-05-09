@@ -78,7 +78,7 @@ def new_win():
 
     def print_Accuracy():
         #var = model.evaluate(x_test,y_test)[1]*100
-        arr["text"] = f"Model Final Accuracy : "
+        arr["text"] = f"{var}"
 
     def center_window(top, width, height):
         screen_width = top.winfo_screenwidth()
@@ -154,7 +154,7 @@ def new_win():
     lable = Label(top, background="#f0f0f0", font=('arial', 15, 'bold'))
     lable.pack(side=BOTTOM, expand=True)
 
-    arr = Label(top, text="hhhh " ,pady=10, font=('Game Of Squids', 20, 'bold'))
+    arr = Label(top, text=" " ,pady=10, font=('Game Of Squids', 20, 'bold'))
     arr.configure(background="#f0f0f0", foreground='#3498db')
     arr.pack()
     arr.place(relx = 0.150 , rely = 0.60)
