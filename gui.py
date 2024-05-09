@@ -130,7 +130,7 @@ def new_win():
     padx=10, pady=5)
     btn_arr.configure(background="#3498db", foreground="white", font=('arial', 10, 'bold'))
     btn_arr.pack(side=BOTTOM, pady=50)
-    btn_arr.place(relx=0.120, rely=0.40)
+    btn_arr.place(relx=0.120, rely=0.20)
 
     # upload image
     sign_image = Label(top, background="#f0f0f0")
