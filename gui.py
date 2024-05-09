@@ -1,11 +1,12 @@
 # ****************************************#
 #        importing library for splash     #
 # ****************************************#
+
 from tkinter import *
 from tkinter import font
 from PIL import ImageTk, Image
 import time
-
+import Model
 w = Tk()
 width_of_window = 427
 height_of_window = 250
@@ -16,6 +17,7 @@ y_coordinate = (screen_height/2)-(height_of_window/2)
 w.geometry("%dx%d+%d+%d" %
            (width_of_window, height_of_window, x_coordinate, y_coordinate))
 w.overrideredirect(1)  # for hiding titlebar
+
 
 
 # ******************************#
@@ -30,7 +32,10 @@ def new_win():
     from PIL import ImageTk, Image
     import numpy
     from tensorflow.keras.models import load_model
-    model = load_model('C:/Users/Mohamed/Desktop/Cifar10-imageClassification/mo.h5')
+
+  
+
+    model = load_model('Model\\model.h5')
     classes = {
         0: 'airplane',
         1: 'car',
@@ -71,7 +76,10 @@ def new_win():
         print(sign)
         lable.configure(foreground='#3498db', text=sign)
 
-      
+    def print_Accuracy():
+        #var = model.evaluate(x_test,y_test)[1]*100
+        arr["text"] = f"Model Final Accuracy : "
+
     def center_window(top, width, height):
         screen_width = top.winfo_screenwidth()
         screen_height = top.winfo_screenheight()
@@ -91,7 +99,7 @@ def new_win():
 # *****************************#
     # GUI
     top = tk.Tk()
-    top.iconbitmap("C:/Users/Mohamed/Desktop/Cifar10-imageClassification/Assets/ai.ico")
+    top.iconbitmap("Assets/ai.ico")
     top.geometry('800x600')
     # top.eval('tk::PlaceWindow. center')
     center_window(top, width, height)
@@ -104,6 +112,7 @@ def new_win():
     heading.configure(background="#f0f0f0", foreground='#3498db')
     heading.pack()
 
+
     upload = Button(top, text="Upload Image Here",
                     command=upload_image, padx=10, pady=5)
     upload.configure(background="#3498db", foreground='white',
@@ -114,8 +123,14 @@ def new_win():
                    command=top.destroy, padx=10, pady=5)
     exitt.configure(background="#3498db", foreground='white',
                     font=('arial', 10, 'bold'))
-    exitt.pack(side=BOTTOM, pady=50)
+    exitt.pack(side=BOTTOM, pady=60)
     exitt.place(relx=0.79, rely=0.60)
+
+    btn_arr = Button(top ,command = print_Accuracy, text = "Show Accuracy" ,
+    padx=10, pady=5)
+    btn_arr.configure(background="#3498db", foreground="white", font=('arial', 10, 'bold'))
+    btn_arr.pack(side=BOTTOM, pady=50)
+    btn_arr.place(relx=0.120, rely=0.40)
 
     # upload image
     sign_image = Label(top, background="#f0f0f0")
@@ -123,7 +138,7 @@ def new_win():
 
     # bannerimage
     # Replace with your image path
-    path1 = "C:/Users/Mohamed/Desktop/Cifar10-imageClassification/Assets/Upload_photo.png"
+    path1 = "Assets/Upload_photo.png"
     image1 = Image.open(path1)
     small_image = image1.resize((100, 100), Image.LANCZOS)
 
@@ -139,6 +154,10 @@ def new_win():
     lable = Label(top, background="#f0f0f0", font=('arial', 15, 'bold'))
     lable.pack(side=BOTTOM, expand=True)
 
+    arr = Label(top, text="hhhh " ,pady=10, font=('Game Of Squids', 20, 'bold'))
+    arr.configure(background="#f0f0f0", foreground='#3498db')
+    arr.pack()
+    arr.place(relx = 0.150 , rely = 0.60)
     top.mainloop()
 
 
@@ -157,9 +176,9 @@ label2.place(x=10, y=215)
 # making animation
 
 image_a = ImageTk.PhotoImage(Image.open(
-    'C:/Users/Mohamed/Desktop/Cifar10-imageClassification/Assets/c2.png'))
+    'Assets/c2.png'))
 image_b = ImageTk.PhotoImage(Image.open(
-    'C:/Users/Mohamed/Desktop/Cifar10-imageClassification/Assets/c1.png'))
+    'Assets/c1.png'))
 
 for i in range(5):  # 5loops
     l1 = Label(w, image=image_a, border=0, relief=SUNKEN).place(x=180, y=145)
