@@ -30,7 +30,7 @@ def new_win():
     from PIL import ImageTk, Image
     import numpy
     from tensorflow.keras.models import load_model
-    model = load_model('C:/Users/Mohamed/Desktop/Cifar10-imageClassification/mm.h5')
+    model = load_model('mm.h5')
     classes = {
         0: 'airplane',
         1: 'car',
@@ -41,7 +41,7 @@ def new_win():
         6: 'frog',
         7: 'horse',
         8: 'ship',
-        9: 'truck',
+        9: 'truck'
     }
 
     def upload_image():
@@ -91,7 +91,7 @@ def new_win():
 # *****************************#
     # GUI
     top = tk.Tk()
-    top.iconbitmap("C:/Users/Mohamed/Desktop/Cifar10-imageClassification/Assets/ai.ico")
+    top.iconbitmap("Assets/ai.ico")
     top.geometry('800x600')
     # top.eval('tk::PlaceWindow. center')
     center_window(top, width, height)
@@ -123,7 +123,7 @@ def new_win():
 
     # bannerimage
     # Replace with your image path
-    path1 = "C:/Users/Mohamed/Desktop/Cifar10-imageClassification/Assets/Upload_photo.png"
+    path1 = "Assets/Upload_photo.png"
     image1 = Image.open(path1)
     small_image = image1.resize((100, 100), Image.LANCZOS)
 
@@ -157,9 +157,9 @@ label2.place(x=10, y=215)
 # making animation
 
 image_a = ImageTk.PhotoImage(Image.open(
-    'C:/Users/Mohamed/Desktop/Cifar10-imageClassification/Assets/c2.png'))
+    'Assets/c2.png'))
 image_b = ImageTk.PhotoImage(Image.open(
-    'C:/Users/Mohamed/Desktop/Cifar10-imageClassification/Assets/c1.png'))
+    'Assets/c1.png'))
 
 for i in range(5):  # 5loops
     l1 = Label(w, image=image_a, border=0, relief=SUNKEN).place(x=180, y=145)
