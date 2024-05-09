@@ -77,7 +77,7 @@ def new_win():
         lable.configure(foreground='#3498db', text=sign)
 
     def print_Accuracy():
-        #var = model.evaluate(x_test,y_test)[1]*100
+        var = model.evaluate(x_test,y_test)[1]*100
         arr["text"] = f"{var}"
 
     def center_window(top, width, height):
