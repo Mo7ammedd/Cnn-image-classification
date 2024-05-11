@@ -75,13 +75,19 @@ def new_win():
         print(sign)
         lable.configure(foreground='#3498db', text=sign)
 
-    def print_Accuracy():
-        with open('model//accuracy.txt', 'r') as file:
-         test_accuracy = float(file.read())
-        accuracy_label = Label(top, text=f"Model Accuracy: {test_accuracy:.2f}%", font=('arial', 10, 'bold'))
-        accuracy_label.pack()
+    global accuracy_label
+    accuracy_label = None
 
-  
+    def print_Accuracy():
+        global accuracy_label
+        # Check if accuracy_label has already been created
+        if accuracy_label is None:
+            # Read accuracy from file
+            with open('model//accuracy.txt', 'r') as file:
+                test_accuracy = float(file.read())
+            # Create and pack accuracy label
+            accuracy_label = Label(top, text=f"Model Accuracy: {test_accuracy:.2f}%", font=('arial', 10, 'bold'))
+            accuracy_label.pack()  
 
     def center_window(top, width, height):
         screen_width = top.winfo_screenwidth()
