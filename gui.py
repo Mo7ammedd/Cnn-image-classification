@@ -76,7 +76,7 @@ def new_win():
         lable.configure(foreground='#3498db', text=sign)
 
     def print_Accuracy():
-        with open('accuracy.txt', 'r') as file:
+        with open('model//accuracy.txt', 'r') as file:
          test_accuracy = float(file.read())
         accuracy_label = Label(top, text=f"Model Accuracy: {test_accuracy:.2f}%", font=('arial', 10, 'bold'))
         accuracy_label.pack()
