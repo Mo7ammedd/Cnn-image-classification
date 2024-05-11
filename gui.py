@@ -76,14 +76,11 @@ def new_win():
         lable.configure(foreground='#3498db', text=sign)
 
     def print_Accuracy():
-       from tensorflow.keras.datasets import cifar10
-       (x_train, y_train), (x_test, y_test) = cifar10.load_data()
-       x_test = x_test / 255.0
-       model = load_model('Model\\model.h5')
-       test_accuracy = model.evaluate(x_test, y_test)[1] * 100
-       print("Model Final Accuracy:", test_accuracy)
-       accuracy_label = Label(top, text=f"Model Accuracy: {test_accuracy:.2f}%", font=('arial', 10, 'bold'))
-       accuracy_label.pack()
+        with open('accuracy.txt', 'r') as file:
+         test_accuracy = float(file.read())
+        accuracy_label = Label(top, text=f"Model Accuracy: {test_accuracy:.2f}%", font=('arial', 10, 'bold'))
+        accuracy_label.pack()
+
   
 
     def center_window(top, width, height):

@@ -68,6 +68,10 @@ history = model.fit(x_train, y_train, batch_size=64, epochs=20, validation_data=
 
 
 test_accuracy = model.evaluate(x_test, y_test)[1] * 100
+##srore the accuracy in a file
+with open("accuracy.txt", "w") as file:
+    file.write(str(test_accuracy))
+    file.close()
 print("Model Final Accuracy:", test_accuracy)
 
 
